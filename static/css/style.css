@@ -1,0 +1,83 @@
+
+
+.form_area{
+    padding: 50px 0;
+    
+}
+form{
+    background-color: #c9d8ff;
+       padding: 50px;
+       border-radius: 20px;
+}
+.form_box>label{
+    display: flex;
+   margin-bottom: 5px;
+}
+.form_box>input{
+    width: 100%;
+    padding: 5px 10px;
+    border: 1px solid black;
+    border-radius: 3px;
+    background-color: transparent;
+}
+.form_box>input[type="file"]{
+    padding: 20px 20px;
+    
+}
+.form_box>button{
+    padding: 10px 40px;
+    background-color: #003953;
+    color: white;
+    display: flex;
+    width: fit-content;
+    border-radius: 8px;
+    border: 0;
+}
+.form_box>button:hover{
+    /* background-color: red; */
+}
+.form_box>button:focus{
+    outline: 0px !important;
+    border: 0px !important;
+}
+.ck.ck-editor{
+    height: 50vh !important;
+}
+
+.ck.ck-editor__main>.ck-editor__editable:not(.ck-focused){
+    height: 44vh !important;
+    overflow-y: scroll;
+
+}
+
+.ck.ck-editor__main>.ck-editor__editable{
+    height: 44vh !important;
+    overflow-y: scroll;
+
+}
+.form_box_a{
+    padding: 10px 40px;
+    background-color: #003953;
+    color: white;
+    display: flex;
+    width: fit-content;
+    border-radius: 8px;
+    border: 0;
+    text-decoration: none;
+}
+   /* responcive css start  */
+@media screen and (max-width: 550px) {
+    form{ 
+           padding: 50px 20px; 
+    }
+    .form_box_a{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .form_box>button{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+}

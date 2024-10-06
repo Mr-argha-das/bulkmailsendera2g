@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camp Details</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        a.download-link {
+            text-decoration: none;
+            color: #007BFF;
+            font-weight: bold;
+        }
+
+        a.download-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            table, th, td {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Camp Details</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Sr No</th>
+                    <th>Date</th>
+                    <th>Camp Name</th>
+                    <th>Download</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in data%}
+                <tr>
+                    <td>{{loop.index}}</td>
+                    <td>2024-10-01</td>
+                    <td>{{item.sheetname}}</td>
+                    <td><a class="download-link" href="/download-csv/{{item['_id']['$oid']}}">Download</a></td>
+                </tr>
+                {%endfor%}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

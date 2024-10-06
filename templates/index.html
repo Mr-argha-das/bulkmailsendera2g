@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulk Mail Tool</title>
+    <!------------------CSS Tags------------------------>
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.1.0/ckeditor5.css">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/bootstrap.min.css') }}">
+</head>
+<body>
+    <div class="form_area">
+        <div class="container">
+            <form action="/submit-form/" method="POST" enctype="multipart/form-data">
+                <h1 class="text-center mb-3">Bulk Mail Tool</h1>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="form_box">
+                            <label for="email">Email</label>
+                            <input type="text" name="email" id="email" placeholder="Enter Email" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="form_box">
+                            <label for="password">Password</label>
+                            <input type="password" name="password" id="password" placeholder="Enter Password" required>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <div class="form_box">
+                            <label for="subject">Subject</label>
+                            <input type="text" name="subject" id="subject" placeholder="Enter Mail Subject" required>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <div class="form_box">
+                            <label for="file">Upload Receiver List (CSV)</label>
+                            <input type="file" name="file" id="file" accept=".csv" required>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <div class="form_box">
+                            <label for="attachment_path">Upload attachment </label>
+                            <input type="file" name="attachment_path" id="file" accept="all" required>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 mb-3">
+                        <div class="form_box">
+                            <div id="editor">
+                                <textarea name="ckeditor_content"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="form_box">
+                            <button type="submit">Submit</button>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3 text-end">
+                        <div class="form_box">
+                            <a href="/html-bulk" class="form_box_a ms-md-auto ms-0">Switch HTML Template</a>
+                        </div>
+                        
+                        <div class="form_box mt-5">
+                            <a href="/table" class="form_box_a ms-md-auto ms-0">All Camp</a>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3 text-end">
+                       
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-------------------------------- Script Tags ------------------------------------>
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script src="{{ url_for('static', path='/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', path='/js/script.js') }}"></script>
+
+    <!-------------------------------- CKEditor5 ------------------------------------>
+    <script type="importmap">
+        {
+            "imports": {
+                "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.1.0/ckeditor5.js",
+                "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.1.0/"
+            }
+        }
+    </script>
+    <script type="module">
+        import {
+            ClassicEditor,
+            Essentials,
+            Paragraph,
+            Bold,
+            Italic,
+            Underline,
+            Font,
+            Heading,
+            List,
+            BlockQuote,
+            Link,
+            Image,
+            ImageToolbar,
+            ImageCaption,
+            ImageStyle,
+            ImageUpload,
+            Table,
+            TableToolbar
+        } from 'ckeditor5';
+
+        ClassicEditor
+            .create(document.querySelector('#editor textarea[name="ckeditor_content"]'), {
+                plugins: [
+                    Essentials, Paragraph, Bold, Italic, Underline, Font, Heading, List, BlockQuote, 
+                    Link, Image, ImageToolbar, ImageCaption, ImageStyle, ImageUpload, Table, TableToolbar
+                ],
+                toolbar: [
+                    'undo', 'redo', '|', 'heading', '|', 'bold', 'italic', 'underline', '|', 
+                    'link', 'blockquote', 'insertTable', 'imageUpload', '|', 
+                    'bulletedList', 'numberedList', '|', 'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|', 
+                    'alignment', 'outdent', 'indent'
+                ],
+                image: {
+                    toolbar: ['imageTextAlternative', 'imageStyle:full', 'imageStyle:side']
+                },
+                table: {
+                    contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
+                }
+            })
+            .then(editor => {
+                window.editor = editor;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+</body>
+</html>

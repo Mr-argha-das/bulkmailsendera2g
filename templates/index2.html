@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulk Mail Tool</title>
+    <!------------------CSS tags ------------------------>
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.1.0/ckeditor5.css">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/bootstrap.min.css') }}">
+</head>
+<body>
+    <div class="form_area">
+        <div class="container">
+            <form action="/submit-form2/" method="POST" enctype="multipart/form-data">
+                <h1 class="text-center mb-3">Bulk Mail Tool</h1>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="form_box">
+                            <label for="email">Email</label>
+                            <input type="text" name="email" id="email" placeholder="Enter Email">
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="form_box">
+                            <label for="password">Password</label>
+                            <input type="password" name="password" id="password" placeholder="Enter Password">
+                        </div>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <div class="form_box">
+                            <label for="subject">Subject</label>
+                            <input type="text" name="subject" id="subject" placeholder="Enter Mail Subject">
+                        </div>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <div class="form_box">
+                            <label for="html">HTML Template</label>
+                            <input type="file" name="html" id="html">
+                        </div>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <div class="form_box">
+                            <label for="file">Upload Receiver List</label>
+                            <input type="file" name="file" id="file">
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="form_box">
+                            <button type="submit">Submit</button>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3 text-end">
+                        <div class="form_box">
+                            <a href="/" class="form_box_a ms-md-auto ms-0">Switch CK Editor</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-------------------------------- script tags ------------------------------------>
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js" type="text/javascript"></script>
+    <script src="{{ url_for('static', path='/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', path='/js/script.js') }}"></script>
+</body>
+</html>
