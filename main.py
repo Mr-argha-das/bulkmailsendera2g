@@ -16,8 +16,10 @@ import pandas as pd
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
+from fastapi.responses import RedirectResponse
 import os
 from model.shhetNameTable import ShetTableName, CreateShhetData
+from model.usertable import UserCreateModel, LoginModel, UserTable
 from model.maindata import MainData
 import csv
 from io import StringIO
@@ -169,12 +171,12 @@ async def send_mail_html(email, name, username, password, message_file: UploadFi
 # def send_mail(email: str, name: str):
 #     print(f"Sending email to {name} at {email}")
 
-@app.get("/", response_class=HTMLResponse)
+@app.get("/home", response_class=HTMLResponse)
 async def get_form(request: Request):
     # Render the HTML form page
     return templates.TemplateResponse("index.html", {"request": request})
 
-@app.get("/login", response_class=HTMLResponse)
+@app.get("/", response_class=HTMLResponse)
 async def get_form(request: Request):
     # Render the HTML form page
     return templates.TemplateResponse("login.html", {"request": request})
@@ -296,6 +298,34 @@ async def submit_form(
     print(f"CKEditor Content: {ckeditor_content}")
 
     return {"Mail sennded successfully"}
+
+
+@app.post("/api/v1/login")
+async def loginApi(body: LoginModel):
+    findata = UserTable.objects(email=body.email).first()
+    if findata :
+        if findata.password == body.password:
+             return RedirectResponse(url="/home")
+        else:
+            return {
+                "message" : "Inccorect password",
+                "status":False
+            }
+    else:
+        return {
+                "message" : "Inccorect email | password",
+                "status":False
+            }
+
+@app.post("/api/v1/user-create")
+async def userCreate(body: UserCreateModel):
+    saveData = UserTable(**body.dict())
+    saveData.save()
+    return {
+        "message": "User Created Succes",
+        "status":True
+    }
+
 
 if __name__ == "__main__":
     import uvicorn

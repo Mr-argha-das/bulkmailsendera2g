@@ -6,7 +6,6 @@
     <title>Document</title>
     <link rel="icon" href="{{ url_for('static', path='/images/logo/favicon.ico') }}" type="image/x-icon">
    <!------------------CSS Tags------------------------>
-   <link rel="icon" href="{{ url_for('static', path='/images/logo/favicon.ico') }}" type="image/x-icon">
    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.1.0/ckeditor5.css">
    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
    <link rel="stylesheet" href="{{ url_for('static', path='/css/bootstrap.min.css') }}">
@@ -27,24 +26,51 @@
                 <div class="login_inner">
                     <img src="{{ url_for('static', path='/images/logo/logo.png') }}" alt="" class="">
                     <div class="form_box mt-4">
-                        <label for="">Email Id</label>
-                          <input type="text" placeholder="Enter Email Id">
+                        <label for="email">Email Id</label>
+                          <input type="text" id="email" placeholder="Enter Email Id">
                     </div>
                     <div class="form_box mt-4">
-                        <label for="">Password</label>
-                          <input type="password" placeholder="Enter Password">
+                        <label for="password">Password</label>
+                          <input type="password" id="password" placeholder="Enter Password">
                     </div>
                     <div class="form_box_n pt-4 d-flex align-content-center gap-2">
-                        <input type="checkbox">
-                        <label for="">Remamber me</label>
+                        <input type="checkbox" id="remember">
+                        <label for="remember">Remember me</label>
                     </div>
                     <div class="form_box form_box_n mt-4">
-                        <button type="submit">Login Now</button>
+                        <button id="loginBtn" type="submit">Login Now</button>
                     </div>
+                    <div id="responseMsg" style="color: red; margin-top: 10px;"></div>
                 </div>
             </div>
          </div>
       </div>
     </section>
+
+    <script>
+      document.getElementById('loginBtn').addEventListener('click', async function() {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        const response = await fetch('/api/v1/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password
+          }),
+        });
+
+        const data = await response.json();
+
+        if (data.status === false) {
+          document.getElementById('responseMsg').innerText = data.message;
+        } else {
+          window.location.href = '/home';
+        }
+      });
+    </script>
 </body>
 </html>
