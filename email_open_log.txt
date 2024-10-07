@@ -11,3 +11,8 @@ INFO:root:Email opened by: mohd.ali.ahit@gmail.com, IP: 10.240.4.161
 INFO:root:Email opened by: krishna.sarkar.ahit@gmail.com, IP: 10.240.3.64
 INFO:root:Email opened by: harish.mahawar.ahit@gmail.com, IP: 10.240.3.196
 INFO:root:Email opened by: ankit.samant.ahec@gmail.com, IP: 10.240.3.196
+ERROR:fastapi:Form data requires "python-multipart" to be installed. 
+You can install "python-multipart" with: 
+
+pip install python-multipart
+

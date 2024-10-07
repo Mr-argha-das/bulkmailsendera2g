@@ -5,80 +5,199 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bulk Mail Tool</title>
     <!------------------CSS Tags------------------------>
+    <link rel="icon" href="{{ url_for('static', path='/images/logo/favicon.ico') }}" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.1.0/ckeditor5.css">
     <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', path='/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <div class="form_area">
-        <div class="container">
-            <form action="/submit-form/" method="POST" enctype="multipart/form-data">
-                <h1 class="text-center mb-3">Bulk Mail Tool</h1>
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <div class="form_box">
-                            <label for="email">Email</label>
-                            <input type="text" name="email" id="email" placeholder="Enter Email" required>
-                        </div>
+    <aside>
+        <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary h-100 asside_inner" style="width: 280px;">
+            <span class="nav_btn aside_close">
+                <i class="fa-solid fa-close"></i>
+            </span>
+            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+              <svg class="bi pe-none me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+                 <img src="{{ url_for('static', path='/images/logo/logo.png') }}" alt="" class="logo_sidebar">
+            </a>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+              <li class="nav-item">
+                <a href="/" class="nav-link active" aria-current="page">
+                  <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+                  Builk Mail
+                </a>
+              </li>
+              <li>
+                <a href="/html-bulk" class="nav-link link-body-emphasis">
+                  <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+                  Template Mail
+                </a>
+              </li>
+              <li>
+                <a href="/table" class="nav-link link-body-emphasis">
+                  <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#table"></use></svg>
+                  Reports
+                </a>
+              </li>
+             
+            </ul>
+            <hr>
+            <div class="dropdown">
+              <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                <strong>mdo</strong>
+              </a>
+              
+            </div>
+          </div>
+    </aside>
+    <div class="main_area">
+        <header>
+                  <div class="header_inner">
+                    <div class="box_1">
+                        <span class="nav_btn">
+                            <i class="fa-solid fa-bars"></i>
+                        </span>
+                        <h2>
+                         Builk Mail Reporting System
+                        </h2>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="form_box">
-                            <label for="password">Password</label>
-                            <input type="password" name="password" id="password" placeholder="Enter Password" required>
+                    <div class="box_2">
+                        <div class="commen">
+                            <div class="date" id="printDate"></div> ,
+                             <div class="date" id="printDay"></div>
                         </div>
+                      
+                        <div class="date" id="printTime"></div>
                     </div>
-                    <div class="col-md-12 mb-3">
-                        <div class="form_box">
-                            <label for="subject">Subject</label>
-                            <input type="text" name="subject" id="subject" placeholder="Enter Mail Subject" required>
-                        </div>
-                    </div>
-                    <div class="col-md-12 mb-3">
-                        <div class="form_box">
-                            <label for="file">Upload Receiver List (CSV)</label>
-                            <input type="file" name="file" id="file" accept=".csv" required>
-                        </div>
-                    </div>
-                    <div class="col-md-12 mb-3">
-                        <div class="form_box">
-                            <label for="attachment_path">Upload attachment </label>
-                            <input type="file" name="attachment_path" id="file" accept="all" required>
-                        </div>
-                    </div>
-                    <div class="col-xl-12 mb-3">
-                        <div class="form_box">
-                            <div id="editor">
-                                <textarea name="ckeditor_content"></textarea>
+                  </div>
+        </header>
+        <div class="form_area">
+            <div class="container_n">
+                <form action="/submit-form/" method="POST" enctype="multipart/form-data">
+                   
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="form_box">
+                                <label for="email">Email</label>
+                                <input type="text" name="email" id="email" placeholder="Enter Email" required>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="form_box">
-                            <button type="submit">Submit</button>
+                        <div class="col-md-6 mb-3">
+                            <div class="form_box">
+                                <label for="password">Password</label>
+                                <input type="password" name="password" id="password" placeholder="Enter Password" required>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-6 mb-3 text-end">
-                        <div class="form_box">
-                            <a href="/html-bulk" class="form_box_a ms-md-auto ms-0">Switch HTML Template</a>
+                        <div class="col-md-12 mb-3">
+                            <div class="form_box">
+                                <label for="subject">Subject</label>
+                                <input type="text" name="subject" id="subject" placeholder="Enter Mail Subject" required>
+                            </div>
                         </div>
-                        
-                        <div class="form_box mt-5">
-                            <a href="/table" class="form_box_a ms-md-auto ms-0">All Camp</a>
+                        <div class="col-md-12 mb-3">
+                            <div class="form_box csv_upload">
+                                <label for="file">Upload Receiver List (CSV)</label>
+                                <input type="file" name="file" id="file" accept=".csv" required>
+                                <div class="choose_n">
+                                    <div class="upload_content">
+                                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                                        <h5 id="fileName">Upload Receiver List</h5> 
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-6 mb-3 text-end">
+                        <div class="col-md-12 mb-3">
+                            <div class="form_box multipal_form_box">
+                                <label for="attachment_path">Upload attachment </label>
+                                <!-- <input type="file" name="attachment_path" id="file" accept="all" required> -->
+                                <input type="file" name="attachment_path" id="fileInput" accept="*" multiple required>
+                                <ul id="fileList" class="file-list"></ul>
+                                <div class="choose_n">
+                                    <div class="upload_content"><i class="fa-solid fa-cloud-arrow-up"></i><h5>Upload Files</h5></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-12 mb-3">
+                            <div class="form_box">
+                                <div id="editor">
+                                    <textarea name="ckeditor_content"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="form_box">
+                                <button type="submit">Submit</button>
+                            </div>
+                        </div>
                        
+                        <div class="col-md-6 mb-3 text-end">
+                           
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
+    
 
     <!-------------------------------- Script Tags ------------------------------------>
     <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
     <script src="{{ url_for('static', path='/js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', path='/js/script.js') }}"></script>
+    <script>
+   let filesArray = [];  // To store selected files
+const fileInput = document.getElementById('fileInput');
+const fileList = document.getElementById('fileList');
 
+// Initially hide the file list
+fileList.style.display = 'none';
+
+// Function to update the displayed file list with remove buttons
+function updateFileList() {
+    fileList.innerHTML = '';  // Clear the current list
+
+    if (filesArray.length === 0) {
+        fileList.style.display = 'none';  // Hide file list if no files
+    } else {
+        fileList.style.display = 'inline-flex';  // Show file list if files exist
+        filesArray.forEach((file, index) => {
+            const li = document.createElement('li');
+            li.textContent = `${file.name}`;
+
+            // Create a remove button for each file
+            const removeButton = document.createElement('button');
+            removeButton.textContent = 'X';
+            removeButton.classList.add('remove-btn');
+            removeButton.addEventListener('click', () => removeFile(index));
+
+            li.appendChild(removeButton);
+            fileList.appendChild(li);
+        });
+    }
+}
+
+// Event listener for file input
+fileInput.addEventListener('change', function() {
+    // Convert FileList object to an array and merge with existing files
+    filesArray = [...filesArray, ...Array.from(fileInput.files)];
+    updateFileList();
+
+    // Reset the file input to allow uploading more files
+    fileInput.value = '';  // This allows the input to reselect the same file if needed
+});
+
+// Function to remove a file from the array and update the list
+function removeFile(index) {
+    filesArray.splice(index, 1);  // Remove the file at the given index
+    updateFileList();  // Update the displayed list
+}
+
+    </script>
     <!-------------------------------- CKEditor5 ------------------------------------>
     <script type="importmap">
         {
@@ -136,5 +255,23 @@
                 console.error(error);
             });
     </script>
+
+
+<script>
+    const fileInputnew = document.getElementById('file');
+const fileNameDisplay = document.getElementById('fileName');
+
+// Event listener for file input
+fileInputnew.addEventListener('change', function() {
+    if (fileInputnew.files.length > 0) {
+        const fileName = fileInputnew.files[0].name;  // Get the selected file name
+        fileNameDisplay.textContent = fileName;    // Update the h5 tag with the file name
+    } else {
+        fileNameDisplay.textContent = 'Upload Receiver List';  // Default text if no file is selected
+    }
+});
+
+</script>
+ 
 </body>
 </html>

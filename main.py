@@ -173,6 +173,15 @@ async def send_mail_html(email, name, username, password, message_file: UploadFi
 async def get_form(request: Request):
     # Render the HTML form page
     return templates.TemplateResponse("index.html", {"request": request})
+
+@app.get("/login", response_class=HTMLResponse)
+async def get_form(request: Request):
+    # Render the HTML form page
+    return templates.TemplateResponse("login.html", {"request": request})
+@app.get("/submit-done", response_class=HTMLResponse)
+async def get_form(request: Request):
+    # Render the HTML form page
+    return templates.TemplateResponse("submited.html", {"request": request})
 @app.get("/table", response_class=HTMLResponse)
 async def get_form(request: Request):
     # Render the HTML form page

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="icon" href="{{ url_for('static', path='/images/logo/favicon.ico') }}" type="image/x-icon">
+   <!------------------CSS Tags------------------------>
+   <link rel="icon" href="{{ url_for('static', path='/images/logo/favicon.ico') }}" type="image/x-icon">
+   <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.1.0/ckeditor5.css">
+   <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+   <link rel="stylesheet" href="{{ url_for('static', path='/css/bootstrap.min.css') }}">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+   integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+   crossorigin="anonymous" referrerpolicy="no-referrer" />
+   <style>
+    body{
+        background-color: #03609c;
+    }
+   </style>
+</head>
+<body>
+    <section class="login_area">
+      <div class="container h-100">
+         <div class="row h-100 align-items-center justify-content-center">
+            <div class="col-xl-6">
+                <div class="login_inner">
+                    <img src="{{ url_for('static', path='/images/logo/logo.png') }}" alt="" class="">
+                    <div class="form_box mt-4">
+                        <label for="">Email Id</label>
+                          <input type="text" placeholder="Enter Email Id">
+                    </div>
+                    <div class="form_box mt-4">
+                        <label for="">Password</label>
+                          <input type="password" placeholder="Enter Password">
+                    </div>
+                    <div class="form_box_n pt-4 d-flex align-content-center gap-2">
+                        <input type="checkbox">
+                        <label for="">Remamber me</label>
+                    </div>
+                    <div class="form_box form_box_n mt-4">
+                        <button type="submit">Login Now</button>
+                    </div>
+                </div>
+            </div>
+         </div>
+      </div>
+    </section>
+</body>
+</html>
