@@ -95,7 +95,7 @@ async def send_mail(recipient_email, recipient_name, sender_email, sender_passwo
         html_content = f"""
         <p>Hi {recipient_name},</p><br/>
         {message}
-        <img src="https://p5h8zcdp-8000.inc1.devtunnels.ms/track_open?email={recipient_email}" alt="" width="100" height="100"/>
+        <img src="http://143.110.179.150:8000/track_open?email={recipient_email}" alt="" width="100" height="100"/>
         """
 
         # Attach the personalized HTML body
@@ -150,7 +150,7 @@ async def send_mail_html(email, name, username, password, message_file: UploadFi
         personalized_html = html_content.replace('{{name}}', name)
         personalized_html = f"""
         {personalized_html}
-        <img src="https://p5h8zcdp-8000.inc1.devtunnels.ms/track_open?email={email}" alt="" width="100" height="100"/>
+        <img src="http://143.110.179.150:8000/track_open?email={email}" alt="" width="100" height="100"/>
         """
         # Attach the personalized HTML body to the email
         msg.attach(MIMEText(personalized_html, 'html'))
