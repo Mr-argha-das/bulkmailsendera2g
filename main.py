@@ -64,11 +64,11 @@ async def download_csv(tableid: str):
     csv_writer = csv.writer(csv_buffer)
 
     # Write the header row to the CSV
-    csv_writer.writerow([ 'token','name', 'email', 'status'])
+    csv_writer.writerow(['Sr no' 'name', 'email', 'status'])
 
     # Write the data rows       
-    for item in data:
-        csv_writer.writerow([item.tableid, item.name, item.email, item.status])
+    for index, item in enumerate(data):
+           csv_writer.writerow([ index+1, item.name, item.email, item.status])
 
     # Set the CSV string buffer's position to the beginning
     csv_buffer.seek(0)
@@ -82,7 +82,7 @@ async def download_csv(tableid: str):
 # Set up Jinja2 templates
 
 
-async def send_mail(recipient_email, recipient_name, sender_email, sender_password, message, subject, attachment: UploadFile = None):
+async def send_mail(recipient_email, recipient_name, sender_email, sender_password, message, subject, attachments: list[UploadFile] = File(...)):
     server = smtplib.SMTP("smtp.gmail.com", 587)
     try:
         # Create a message object
@@ -102,18 +102,19 @@ async def send_mail(recipient_email, recipient_name, sender_email, sender_passwo
         msg.attach(MIMEText(html_content, 'html'))
 
         # Attach a file if provided
-        if attachment:
-            # Read the content of the file
-            attachment_content = await attachment.read()
+        if attachments:
+            for v in attachments:
+                attachment_content = await v.read()
 
-            part = MIMEBase('application', 'octet-stream')
-            part.set_payload(attachment_content)
-            encoders.encode_base64(part)
-            part.add_header(
-                'Content-Disposition',
-                f'attachment; filename={attachment.filename}',
-            )
-            msg.attach(part)
+                part = MIMEBase('application', 'octet-stream')
+                part.set_payload(attachment_content)
+                encoders.encode_base64(part)
+                part.add_header(
+                    'Content-Disposition',
+                    f'attachment; filename={v.filename}',
+                )
+                print(v.filename)
+                msg.attach(part)
 
         # Set up the SMTP server and send the email
         
@@ -180,7 +181,7 @@ async def get_form(request: Request):
 async def get_form(request: Request):
     # Render the HTML form page
     return templates.TemplateResponse("login.html", {"request": request})
-@app.get("/submit-done", response_class=HTMLResponse)
+@app.post("/submit-done", response_class=HTMLResponse)
 async def get_form(request: Request):
     # Render the HTML form page
     return templates.TemplateResponse("submited.html", {"request": request})
@@ -227,7 +228,7 @@ async def submit_form2(
             # Send the email using the send_mail_html function
             # Pass the uploaded HTML file (html) directly as the message_file
             await send_mail_html(email2, name, email, password, html, subject)
-            saveData = MainData(tableid=str(ObjectId(findDataTable.id)), name=name, email=email, status = "Sent")
+            saveData = MainData(tableid=str(ObjectId(findDataTable.id)), name=name, email=email2, status = "Sent")
             saveData.save()
     else:
         saveTable= ShetTableName(sheetname=file.filename)
@@ -250,7 +251,7 @@ async def submit_form2(
     print(f"Password: {password}")
     print(f"Subject: {subject}")
 
-    return {"message": "Mails sent successfully"}
+    return RedirectResponse(url="/submit-done")
 
 
 @app.post("/submit-form/")
@@ -260,7 +261,7 @@ async def submit_form(
     subject: str = Form(...),
     ckeditor_content: str = Form(...),
     file: UploadFile = File(...),
-    attachment_path: UploadFile = File(...)
+    attachment_path: list[UploadFile] = File(...)
 ):
     # Read the uploaded file (CSV)
     contents = await file.read()
@@ -273,7 +274,7 @@ async def submit_form(
            name = row[0]  # Assuming the first column is the name
            email2= row[1]  # Assuming the second column is the email
            await send_mail(email2, name, email, password, ckeditor_content, subject, attachment_path)
-           saveData = MainData(tableid=str(ObjectId(findDataTable.id)), name=name, email=email, status = "Sent")
+           saveData = MainData(tableid=str(ObjectId(findDataTable.id)), name=name, email=email2, status = "Sent")
            saveData.save()
     else:
         saveTable= ShetTableName(sheetname=file.filename)
@@ -297,7 +298,7 @@ async def submit_form(
     print(f"Subject: {subject}")
     print(f"CKEditor Content: {ckeditor_content}")
 
-    return {"Mail sennded successfully"}
+    return  RedirectResponse(url="/submit-done")
 
 
 @app.post("/api/v1/login")
