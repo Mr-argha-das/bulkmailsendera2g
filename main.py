@@ -64,7 +64,7 @@ async def download_csv(tableid: str):
     csv_writer = csv.writer(csv_buffer)
 
     # Write the header row to the CSV
-    csv_writer.writerow(['Sr no' 'name', 'email', 'status'])
+    csv_writer.writerow(['Sr no', 'name', 'email', 'status'])
 
     # Write the data rows       
     for index, item in enumerate(data):
@@ -253,7 +253,7 @@ async def submit_form2(
 
     return RedirectResponse(url="/submit-done")
 
-
+from datetime import datetime
 @app.post("/submit-form/")
 async def submit_form(
     email: str = Form(...),
@@ -277,10 +277,12 @@ async def submit_form(
            saveData = MainData(tableid=str(ObjectId(findDataTable.id)), name=name, email=email2, status = "Sent")
            saveData.save()
     else:
-        saveTable= ShetTableName(sheetname=file.filename)
+        now = datetime.now()
+        current_date = now.strftime("%Y-%m-%d")
+        saveTable= ShetTableName(sheetname=file.filename, date=f"{current_date}")
         # Skip the header row
         saveTable.save()
-        header = next(csv_reader)
+        header = next(csv_reader)  
     # Process each recipient in the CSV file
         for row in csv_reader:
            name = row[0]  # Assuming the first column is the name
@@ -330,4 +332,4 @@ async def userCreate(body: UserCreateModel):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
