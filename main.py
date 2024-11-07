@@ -100,22 +100,36 @@ async def send_mail(recipient_email, recipient_name, sender_email, sender_passwo
 
         # Attach the personalized HTML body
         msg.attach(MIMEText(html_content, 'html'))
-
+        print("==attachments===")
+        print(attachments)
         # Attach a file if provided
         if attachments:
-            for v in attachments:
-                attachment_content = await v.read()
+            for attachment in attachments:
+                print(attachment.filename)
+                print("==========")
+                if hasattr(attachment, 'read'):  # File-like object (e.g., file uploaded via form)
+                    attachment_content = await attachment.read()
+                    filename = attachment.filename
+                else:  # Regular file path
+                    with open(attachment, 'rb') as f:
+                        attachment_content = f.read()
+                    filename = os.path.basename(attachment)
 
+                # Create the attachment part
                 part = MIMEBase('application', 'octet-stream')
+                
                 part.set_payload(attachment_content)
                 encoders.encode_base64(part)
+
+                # Add header with the correct filename
                 part.add_header(
                     'Content-Disposition',
-                    f'attachment; filename={v.filename}',
+                    f'attachment; filename="{filename}"'
                 )
-                print(v.filename)
-                msg.attach(part)
 
+                print(f"Attaching file: {filename}")
+                msg.attach(part)
+   
         # Set up the SMTP server and send the email
         
         server.starttls()  # Secure the connection
@@ -191,6 +205,7 @@ async def get_form(request: Request):
     findSheet = ShetTableName.objects.all()
     tojson = findSheet.to_json()
     fromjson = json.loads(tojson)
+    
     data = {
         "data":fromjson
     }
@@ -231,7 +246,9 @@ async def submit_form2(
             saveData = MainData(tableid=str(ObjectId(findDataTable.id)), name=name, email=email2, status = "Sent")
             saveData.save()
     else:
-        saveTable= ShetTableName(sheetname=file.filename)
+        now = datetime.now()
+        current_date = now.strftime("%Y-%m-%d")
+        saveTable= ShetTableName(sheetname=file.filename, date=current_date)
         # Skip the header row
         saveTable.save()
         header = next(csv_reader)
@@ -253,6 +270,9 @@ async def submit_form2(
 
     return RedirectResponse(url="/submit-done")
 
+UPLOAD_DIR = "uploads"
+if not os.path.exists(UPLOAD_DIR):
+    os.makedirs(UPLOAD_DIR)
 from datetime import datetime
 @app.post("/submit-form/")
 async def submit_form(
@@ -261,19 +281,22 @@ async def submit_form(
     subject: str = Form(...),
     ckeditor_content: str = Form(...),
     file: UploadFile = File(...),
-    attachment_path: list[UploadFile] = File(...)
+    files: list[UploadFile] = File(...)
 ):
     # Read the uploaded file (CSV)
     contents = await file.read()
     csv_string = contents.decode("utf-8")
     csv_reader = csv.reader(StringIO(csv_string))
     findDataTable = ShetTableName.objects(sheetname=file.filename).first()
+    for file in files:
+        print("===filename =",file.filename)
+        
     if findDataTable:
         print("found")
         for row in csv_reader:
            name = row[0]  # Assuming the first column is the name
            email2= row[1]  # Assuming the second column is the email
-           await send_mail(email2, name, email, password, ckeditor_content, subject, attachment_path)
+           await send_mail(email2, name, email, password, ckeditor_content, subject, files)
            saveData = MainData(tableid=str(ObjectId(findDataTable.id)), name=name, email=email2, status = "Sent")
            saveData.save()
     else:
@@ -287,7 +310,7 @@ async def submit_form(
         for row in csv_reader:
            name = row[0]  # Assuming the first column is the name
            email2= row[1]  # Assuming the second column is the email
-           await send_mail(email2, name, email, password, ckeditor_content, subject, attachment_path)
+           await send_mail(email2, name, email, password, ckeditor_content, subject, files)
            saveData = MainData(tableid=str(ObjectId(saveTable.id)), name=name, email=email2, status = "Sent")
            saveData.save()
            

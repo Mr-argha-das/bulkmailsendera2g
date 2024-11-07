@@ -166,7 +166,7 @@
                             {% for item in data%}
                             <tr>
                                 <td>{{loop.index}}</td>
-                                <td>2024-10-01</td>
+                                <td>{{item.date}}</td>
                                 <td>{{item.sheetname}}</td>
                                 <td><a class="download-link" href="/download-csv/{{item['_id']['$oid']}}">Download</a></td>
                             </tr>
