@@ -50,7 +50,7 @@ async def track_open(request: Request, email: str):
     findData.status = "Open"
     findData.save()
     # Serve a 1x1 transparent pixel
-    with open("static/testing.png", "rb") as image:
+    with open("static/image.png", "rb") as image:
         return Response(content=image.read(), media_type="image/png")
     
     
@@ -164,7 +164,7 @@ async def send_mail_html(email, name, username, password, message_file: UploadFi
         personalized_html = html_content.replace('{{name}}', name)
         personalized_html = f"""
         {personalized_html}
-        <img src="http://139.59.89.17:8000/track_open?email={email}" alt="" width="100" height="100"/>
+        <img src="http://139.59.89.17:8080/track_open?email={email}" alt="" width="100" height="100"/>
         """
         # Attach the personalized HTML body to the email
         msg.attach(MIMEText(personalized_html, 'html'))
@@ -355,4 +355,4 @@ async def userCreate(body: UserCreateModel):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=8080, reload=True)
