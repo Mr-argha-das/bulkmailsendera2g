@@ -117,7 +117,7 @@
                                      </label>
                                 <!-- <input type="file" name="files" id="file" accept="all" required> -->
                                 <input type="file" name="files" id="fileInput" multiple >
-                                <ul id="fileList" class="file-list" name = "fileList"></ul>
+                                 <ul id="fileList" class="file-list"></ul>
                                 <div class="choose_n">
                                     <div class="upload_content"><i class="fa-solid fa-cloud-arrow-up"></i><h5>Upload Files</h5></div>
                                 </div>
@@ -150,54 +150,27 @@
     <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
     <script src="{{ url_for('static', path='/js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', path='/js/script.js') }}"></script>
+  
     <script>
-   let filesArray = [];  // To store selected files
-const fileInput = document.getElementById('fileInput');
-const fileList = document.getElementById('fileList');
+        // Get references to the file input and the file list container
+        const fileInput = document.getElementById('fileInput');
+        const fileList = document.getElementById('fileList');
 
-// Initially hide the file list
-fileList.style.display = 'none';
+        // Event listener for file selection
+        fileInput.addEventListener('change', function() {
+            // Clear previous list
+            fileList.innerHTML = '';
 
-// Function to update the displayed file list with remove buttons
-function updateFileList() {
-    fileList.innerHTML = '';  // Clear the current list
+            // Get the selected files
+            const files = fileInput.files;
 
-    if (filesArray.length === 0) {
-        fileList.style.display = 'none';  // Hide file list if no files
-    } else {
-        fileList.style.display = 'inline-flex';  // Show file list if files exist
-        filesArray.forEach((file, index) => {
-            const li = document.createElement('li');
-            li.textContent = `${file.name}`;
-
-            // Create a remove button for each file
-            const removeButton = document.createElement('button');
-            removeButton.textContent = 'X';
-            removeButton.classList.add('remove-btn');
-            removeButton.addEventListener('click', () => removeFile(index));
-
-            li.appendChild(removeButton);
-            fileList.appendChild(li);
+            // Loop through the files and display each one
+            for (let i = 0; i < files.length; i++) {
+                const listItem = document.createElement('li');
+                listItem.textContent = files[i].name;
+                fileList.appendChild(listItem);
+            }
         });
-    }
-}
-
-// Event listener for file input
-fileInput.addEventListener('change', function() {
-    // Convert FileList object to an array and merge with existing files
-    filesArray = [...filesArray, ...Array.from(fileInput.files)];
-    updateFileList();
-
-    // Reset the file input to allow uploading more files
-    fileInput.value = '';  // This allows the input to reselect the same file if needed
-});
-
-// Function to remove a file from the array and update the list
-function removeFile(index) {
-    filesArray.splice(index, 1);  // Remove the file at the given index
-    updateFileList();  // Update the displayed list
-}
-
     </script>
     <!-------------------------------- CKEditor5 ------------------------------------>
     <script type="importmap">
